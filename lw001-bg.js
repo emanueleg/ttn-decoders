@@ -1,6 +1,6 @@
 /*
  * Decoder MOKO LW001-BG GPS tracker with The Things Network
- * by Emanuele Goldoni, 2020 <emanuele.goldoni@gmail.com>
+ * by Emanuele Goldoni, Sitip.net, 2020. <emanuele.goldoni@gmail.com>
  */
 
 function Decoder(bytes, port) {
