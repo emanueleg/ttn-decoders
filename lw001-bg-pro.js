@@ -55,10 +55,10 @@ function decodeUplink(input) {
       decoded.pdop = Math.round(payload[8]/10)
       decoded.latitude = Bytes2Int(payload.slice(0,4))
       decoded.latitude -= (decoded.latitude > 0x80000000) ? 0x0100000000 : 0
-      decoded.latitude /= 1000000
+      decoded.latitude /= 10000000
       decoded.longitude = Bytes2Int(payload.slice(4,8))
       decoded.longitude -= (decoded.longitude > 0x80000000) ? 0x0100000000 : 0
-      decoded.longitude /= 1000000
+      decoded.longitude /= 10000000
     }  
   }
   
