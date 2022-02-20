@@ -131,8 +131,8 @@ function decodeUplink(input) {
 }
 
 /* 4-byte float in IEEE 754 standard, byte order is low byte first */
-function Bytes2Float(bytes) {
-  var bits = ((bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | (bytes[0]));
+function Bytes2Float(byteArray) {
+  var bits = ((byteArray[3] << 24) | (byteArray[2] << 16) | (byteArray[1] << 8) | (byteArray[0]));
   var sign = ((bits >>> 31) === 0) ? 1.0 : -1.0;
   var e = ((bits >>> 23) & 0xff);
   var m = (e === 0) ? (bits & 0x7fffff) << 1 : (bits & 0x7fffff) | 0x800000;
@@ -140,11 +140,11 @@ function Bytes2Float(bytes) {
   return f
 }
 
-function Bytes2Int(bytes) {
+/* n-bytes array to integer - most significant byte is stored first (Big Endian) */
+function Bytes2Int(byteArray) {
   var n = 0;
-  for (i = 0; i < bytes.length; i++) {
-    n *= 0x100
-    n += bytes[i]
+  for (i = 0; i < byteArray.length; i++) {
+    n = (n << 8) + byteArray[i]
   }
   return n
 }
