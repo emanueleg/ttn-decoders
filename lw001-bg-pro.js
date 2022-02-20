@@ -1,5 +1,5 @@
 /*
- * Decoder for MOKO LW001-BG PRO GPS tracker packets
+ * Packet Decoder for MOKO LW001-BG PRO GPS tracker
  * by Emanuele Goldoni, 2022 <emanuele.goldoni@gmail.com>
  */
 
@@ -41,17 +41,17 @@ function decodeUplink(input) {
     decoded.date_time = Bytes2DateTime(bytes.slice(4,12))
     decoded.data_length = bytes[12]
     payload = bytes.slice(13, 13+decoded.data_length+1)
-    if (decoded.positioning_type === 0) {  //wifi
+    if (decoded.positioning_success_type === 0) {  //wifi
       decoded.wifi = {}
       for (i = 0; i < (decoded.data_length/7); i++) {
         decoded.wifi[Bytes2MAC(payload.slice(i*7, i*7+6))] = payload[i*7+6]-256 
       }
-    } else if (decoded.positioning_type === 1) {  //bt
+    } else if (decoded.positioning_success_type === 1) {  //bt
       decoded.bluetooth = {}
       for (i = 0; i < (decoded.data_length/7); i++) {
         decoded.bluetooth[Bytes2MAC(payload.slice(i*7, i*7+6))] = payload[i*7+6]-256 
       }
-    } else if (decoded.positioning_type === 2) {  //gps
+    } else if (decoded.positioning_success_type === 2) {  //gps
       decoded.pdop = Math.round(payload[8]/10)
       decoded.latitude = Bytes2Int(payload.slice(0,4))
       decoded.latitude -= (decoded.latitude > 0x80000000) ? 0x0100000000 : 0
@@ -119,7 +119,6 @@ function decodeUplink(input) {
   
   decoded.raw_bytes = bytes;
   decoded.raw_original = Bytes2Hex(bytes);
-  //return decoded;
   
   return {
     data: decoded,
