@@ -52,13 +52,14 @@ function decodeUplink(input) {
         decoded.bluetooth[Bytes2MAC(payload.slice(i*7, i*7+6))] = payload[i*7+6]-256 
       }
     } else if (decoded.positioning_success_type === 2) {  //gps
-      decoded.pdop = Math.round(payload[8]/10)
-      decoded.latitude = Bytes2Int(payload.slice(0,4))
-      decoded.latitude -= (decoded.latitude > 0x80000000) ? 0x0100000000 : 0
-      decoded.latitude /= 10000000
-      decoded.longitude = Bytes2Int(payload.slice(4,8))
-      decoded.longitude -= (decoded.longitude > 0x80000000) ? 0x0100000000 : 0
-      decoded.longitude /= 10000000
+      decoded.gps = {}
+      decoded.gps.pdop = Math.round(payload[8]/10)
+      decoded.gps.latitude = Bytes2Int(payload.slice(0,4))
+      decoded.gps.latitude -= (decoded.latitude > 0x80000000) ? 0x0100000000 : 0
+      decoded.gps.latitude /= 10000000
+      decoded.gps.longitude = Bytes2Int(payload.slice(4,8))
+      decoded.gps.longitude -= (decoded.longitude > 0x80000000) ? 0x0100000000 : 0
+      decoded.gps.longitude /= 10000000
     }  
   }
   
@@ -78,8 +79,9 @@ function decodeUplink(input) {
         decoded.bluetooth[Bytes2MAC(payload.slice(i*7, i*7+6))] = payload[i*7+6]-256 
       }
     } else if (bytes[3] < 0x0C) {  //gps
-      decoded.pdop = (payload[0] === 0xff) ? "unknown" : Math.round(payload[0]/10)
-      decoded.cn = payload.slice(1,5)
+      decoded.gps = {}
+      decoded.gps.pdop = (payload[0] === 0xff) ? "unknown" : Math.round(payload[0]/10)
+      decoded.gps.cn = payload.slice(1,5)
     }
   }
   
