@@ -1,4 +1,4 @@
-# ttn-decoders / tts-decodes
+# ttn-decoders / tts-decoders
 The Things Network / The Things Stack decoding functions for some LoRaWAN devices and payload formats 
 
 ## LW001-BG
