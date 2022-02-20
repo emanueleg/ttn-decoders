@@ -60,6 +60,8 @@ function decodeUplink(input) {
       decoded.gps.longitude = Bytes2Int(payload.slice(4,8))
       decoded.gps.longitude -= (decoded.longitude > 0x80000000) ? 0x0100000000 : 0
       decoded.gps.longitude /= 10000000
+      decoded.Latitude = decoded.gps.latitude
+      decoded.Longitude =  decoded.gps.longitude
     }  
   }
   
